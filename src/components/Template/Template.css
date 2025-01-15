@@ -1,0 +1,53 @@
+.template-container {
+  padding: 40px;
+  text-align: center;
+}
+
+.template-title {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.cards-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.category-card {
+  position: relative;
+  width: 240px;
+  height: 320px;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.category-card:hover {
+  transform: scale(1.05);
+}
+
+.category-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}
+
+.category-name {
+  font-size: 18px;
+  font-weight: bold;
+}

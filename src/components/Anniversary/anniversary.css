@@ -1,0 +1,189 @@
+/* App.css */
+
+/* Background Animation */
+/* body {
+  margin: 0;
+  padding: 0;
+  font-family: "Arial", sans-serif;
+  overflow: hidden;
+  background: linear-gradient(120deg, #ff9a9e, #fad0c4, #fbc2eb);
+  background-size: 300% 300%;
+  animation: gradientShift 10s ease infinite;
+} */
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* App Container */
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 60px;
+}
+
+.app-wrapper {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 500px;
+  padding: 55px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Animated Decorative Elements */
+.app-wrapper::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 150px;
+  height: 150px;
+  background: rgba(255, 198, 198, 0.8);
+  border-radius: 50%;
+  animation: floating 6s ease-in-out infinite;
+  z-index: -1;
+}
+
+.app-wrapper::after {
+  content: "";
+  position: absolute;
+  bottom: -50px;
+  left: -50px;
+  width: 200px;
+  height: 200px;
+  background: rgba(198, 255, 234, 0.8);
+  border-radius: 50%;
+  animation: floating 7s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes floating {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(20px);
+  }
+}
+
+/* Step Title */
+.step-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #444;
+}
+
+/* Input Group */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-field,
+.textarea-field,
+select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.input-field:focus,
+.textarea-field:focus,
+select:focus {
+  border-color: #ff7eb3;
+  box-shadow: 0 0 8px rgba(255, 126, 179, 0.6);
+}
+
+/* Buttons */
+.Ani_button {
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  transition: all 0.3s;
+}
+
+.btn-previous {
+  background: #6c757d;
+}
+
+.btn-next {
+  background: #ff7eb3;
+}
+
+.btn-next:hover,
+.btn-previous:hover,
+.btn-print:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+}
+
+.btn-print {
+  background: #28a745;
+  margin-top: 20px;
+}
+
+/* Final Invitation */
+.final-title {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #ff6584;
+  text-shadow: 2px 2px rgba(255, 201, 203, 0.6);
+}
+
+.celebrant-names {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.event-item {
+  font-size: 18px;
+  margin: 5px 0;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.heart-icon {
+  color: #ff6b81;
+  margin-bottom: 20px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
