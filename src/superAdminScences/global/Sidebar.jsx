@@ -174,6 +174,21 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
             <Item
+              title="weddingBackupDataSuperAdmin"
+              to="/weddingBackupDataSuperAdmin"
+              icon={<PersonOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="WeddingInterestedData"
+              to="/weddingInterestedData"
+              icon={<PersonOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+            <Item
               title="Profile Form"
               to="/form"
               icon={<PersonOutlinedIcon />}
