@@ -1,162 +1,5 @@
-// WeddingForm.jsx
-// import React, { useState } from "react";
-// import PropTypes from "prop-types";
-
-// const WeddingForm = ({ onSubmit }) => {
-//   const [formData, setFormData] = useState({
-//     brideName: "",
-//     groomName: "",
-//     weddingDate: "",
-//     venue: "",
-//     backgroundImage: "",
-//     groomImage: "",
-//     brideImage: "",
-//     groomDescription: "",
-//     brideDescription: "",
-//   });
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData((prevData) => ({
-//       ...prevData,
-//       [name]: value,
-//     }));
-//   };
-
-//   const handleFileChange = (e) => {
-//     const { name } = e.target;
-//     const file = e.target.files[0];
-
-//     if (file) {
-//       const reader = new FileReader();
-//       reader.onloadend = () => {
-//         setFormData((prevData) => ({
-//           ...prevData,
-//           [name]: reader.result, // Set the base64 string
-//         }));
-//       };
-//       reader.readAsDataURL(file); // Convert to base64
-//     }
-//   };
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     if (typeof onSubmit === "function") {
-//       onSubmit(formData);
-//       console.log("Form submitted:", formData);
-//     } else {
-//       console.error("onSubmit is not a valid function");
-//     }
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit} className="wedding-form">
-//       <div className="form-group">
-//         <label htmlFor="brideName">Bride Name:</label>
-//         <input
-//           type="text"
-//           id="brideName"
-//           name="brideName"
-//           value={formData.brideName}
-//           onChange={handleChange}
-//           required
-//         />
-//       </div>
-//       <div className="form-group">
-//         <label htmlFor="groomName">Groom Name:</label>
-//         <input
-//           type="text"
-//           id="groomName"
-//           name="groomName"
-//           value={formData.groomName}
-//           onChange={handleChange}
-//           required
-//         />
-//       </div>
-//       <div className="form-group">
-//         <label htmlFor="weddingDate">Wedding Date and Time:</label>
-//         <input
-//           type="datetime-local"
-//           id="weddingDate"
-//           name="weddingDate"
-//           value={formData.weddingDate}
-//           onChange={handleChange}
-//           required
-//         />
-//       </div>
-//       <div className="form-group">
-//         <label htmlFor="venue">Wedding Venue:</label>
-//         <input
-//           type="text"
-//           id="venue"
-//           name="venue"
-//           value={formData.venue}
-//           onChange={handleChange}
-//           required
-//         />
-//       </div>
-//       <div className="form-group">
-//         <label htmlFor="backgroundImage">Background Image:</label>
-//         <input
-//           type="file"
-//           id="backgroundImage"
-//           name="backgroundImage"
-//           accept="image/*"
-//           onChange={handleFileChange}
-//         />
-//       </div>
-//       <div className="form-group">
-//         <label htmlFor="groomImage">Groom Image:</label>
-//         <input
-//           type="file"
-//           id="groomImage"
-//           name="groomImage"
-//           accept="image/*"
-//           onChange={handleFileChange}
-//         />
-//       </div>
-//       <div className="form-group">
-//         <label htmlFor="brideImage">Bride Image:</label>
-//         <input
-//           type="file"
-//           id="brideImage"
-//           name="brideImage"
-//           accept="image/*"
-//           onChange={handleFileChange}
-//         />
-//       </div>
-//       <div className="form-group">
-//         <label htmlFor="groomDescription">Groom Description:</label>
-//         <textarea
-//           id="groomDescription"
-//           name="groomDescription"
-//           value={formData.groomDescription}
-//           onChange={handleChange}
-//         />
-//       </div>
-//       <div className="form-group">
-//         <label htmlFor="brideDescription">Bride Description:</label>
-//         <textarea
-//           id="brideDescription"
-//           name="brideDescription"
-//           value={formData.brideDescription}
-//           onChange={handleChange}
-//         />
-//       </div>
-//       <button type="submit" className="btn btn-primary">
-//         Submit
-//       </button>
-//     </form>
-//   );
-// };
-
-// WeddingForm.propTypes = {
-//   onSubmit: PropTypes.func.isRequired,
-// };
-
-// export default WeddingForm;
-
 import React, { useState } from "react";
+
 const WeddingForm = () => {
   const [formData, setFormData] = useState({
     brideName: "",
@@ -167,22 +10,16 @@ const WeddingForm = () => {
     weddingLocation: "",
     brideDescription: "",
     groomDescription: "",
-    eventDetails: {
-      mainCeremony: {
+    eventDetails: [
+      {
+        type: "",
         title: "",
-        timeStart: { hours: "", minutes: "" },
-        timeEnd: { hours: "", minutes: "" },
+        timeStart: "",
+        timeEnd: "",
         date: "",
         description: "",
       },
-      weddingParty: {
-        title: "",
-        timeStart: { hours: "", minutes: "" },
-        timeEnd: { hours: "", minutes: "" },
-        date: "",
-        description: "",
-      },
-    },
+    ],
     storyDetails: [{ title: "", date: "", description: "", image: "" }],
     galleryData: [{ image: "", photosCount: "", title: "" }],
   });
@@ -220,6 +57,23 @@ const WeddingForm = () => {
     });
   };
 
+  const handleAddEvent = () => {
+    setFormData((prevState) => ({
+      ...prevState,
+      eventDetails: [
+        ...prevState.eventDetails,
+        {
+          type: "",
+          title: "",
+          timeStart: { hours: "", minutes: "" },
+          timeEnd: { hours: "", minutes: "" },
+          date: "",
+          description: "",
+        },
+      ],
+    }));
+  };
+
   const handleAddStory = () => {
     setFormData((prevState) => ({
       ...prevState,
@@ -240,73 +94,6 @@ const WeddingForm = () => {
     }));
   };
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     const response = await fetch("http://localhost:5000/api/wedding", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(formData),
-  //     });
-
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       console.log("Form submitted successfully:", data);
-  //     } else {
-  //       const errorData = await response.json();
-  //       console.error("Error submitting form:", errorData);
-  //       alert(
-  //         "There was an error submitting the form. Please check the server logs for details."
-  //       );
-  //     }
-  //   } catch (error) {
-  //     console.error("Error submitting form:", error);
-  //     alert(
-  //       "There was an error submitting the form. Please check the server logs for details."
-  //     );
-  //   }
-  // };
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-
-  //   // Client-side validation to ensure all required fields are present in the storyDetails array
-  //   const invalidStories = formData.storyDetails.filter((story, index) => {
-  //     return !story.title || !story.date || !story.description || !story.image;
-  //   });
-
-  //   if (invalidStories.length > 0) {
-  //     alert("Please ensure all fields are filled out for each story.");
-  //     return; // Prevent submission if validation fails
-  //   }
-
-  //   try {
-  //     const response = await fetch("http://localhost:5000/api/wedding", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(formData),
-  //     });
-
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       console.log("Form submitted successfully:", data);
-  //     } else {
-  //       const errorData = await response.json();
-  //       console.error("Error submitting form:", errorData);
-  //       alert(
-  //         "There was an error submitting the form. Please check the server logs for details."
-  //       );
-  //     }
-  //   } catch (error) {
-  //     console.error("Error submitting form:", error);
-  //     alert(
-  //       "There was an error submitting the form. Please check the server logs for details."
-  //     );
-  //   }
-  // };
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -513,7 +300,8 @@ const WeddingForm = () => {
               <button
                 type="button"
                 onClick={handleNext}
-                className="p-2 bg-blue-500 rounded"
+                class
+                Name="p-2 bg-blue-500 rounded"
               >
                 Next
               </button>
@@ -524,233 +312,163 @@ const WeddingForm = () => {
         {/* Main Ceremony Section */}
         {step === 3 && (
           <>
-            <div className="mb-4">
-              <h3 className="text-2xl font-semibold">Main Ceremony</h3>
-              <label
-                htmlFor="mainCeremonyTitle"
-                className="block text-lg font-semibold"
-              >
-                Title:
-              </label>
-              <input
-                type="text"
-                id="mainCeremonyTitle"
-                name="title"
-                value={formData.eventDetails.mainCeremony.title}
-                onChange={(e) =>
-                  handleNestedInputChange(e, "eventDetails", "mainCeremony")
-                }
-                className="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-              <label
-                htmlFor="mainCeremonyDate"
-                className="block text-lg font-semibold"
-              >
-                Date:
-              </label>
-              <input
-                type="date"
-                id="mainCeremonyDate"
-                name="date"
-                value={formData.eventDetails.mainCeremony.date}
-                onChange={(e) =>
-                  handleNestedInputChange(e, "eventDetails", "mainCeremony")
-                }
-                className="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-              {/* Time Start and End */}
-              <div className="flex justify-between mb-4">
-                <div className="flex flex-col w-1/2">
-                  <label
-                    htmlFor="mainCeremonyStartTime"
-                    className="block text-lg font-semibold"
-                  >
-                    Start Time:
-                  </label>
-                  <input
-                    type="time"
-                    id="mainCeremonyStartTime"
-                    name="timeStart"
-                    value={formData.eventDetails.mainCeremony.timeStart}
-                    onChange={(e) =>
-                      handleNestedInputChange(e, "eventDetails", "mainCeremony")
-                    }
-                    className="p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
-                </div>
-                <div className="flex flex-col w-1/2">
-                  <label
-                    htmlFor="mainCeremonyEndTime"
-                    className="block text-lg font-semibold"
-                  >
-                    End Time:
-                  </label>
-                  <input
-                    type="time"
-                    id="mainCeremonyEndTime"
-                    name="timeEnd"
-                    value={formData.eventDetails.mainCeremony.timeEnd}
-                    onChange={(e) =>
-                      handleNestedInputChange(e, "eventDetails", "mainCeremony")
-                    }
-                    className="p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
-                </div>
+            {formData.eventDetails.map((event, index) => (
+              <div key={index} className="mb-4">
+                <h3 className="text-2xl font-semibold">Event {index + 1}</h3>
+                <label
+                  htmlFor={`eventType${index}`}
+                  className="block text-lg font-semibold"
+                >
+                  Type:
+                </label>
+                <input
+                  type="text"
+                  id={`eventType${index}`}
+                  name="type"
+                  value={event.type}
+                  onChange={(e) =>
+                    setFormData((prevState) => {
+                      const updatedEvents = [...prevState.eventDetails];
+                      updatedEvents[index].type = e.target.value;
+                      return { ...prevState, eventDetails: updatedEvents };
+                    })
+                  }
+                  className="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+                <label
+                  htmlFor={`eventTitle${index}`}
+                  className="block text-lg font-semibold"
+                >
+                  Title:
+                </label>
+                <input
+                  type="text"
+                  id={`eventTitle${index}`}
+                  name="title"
+                  value={event.title}
+                  onChange={(e) =>
+                    setFormData((prevState) => {
+                      const updatedEvents = [...prevState.eventDetails];
+                      updatedEvents[index].title = e.target.value;
+                      return { ...prevState, eventDetails: updatedEvents };
+                    })
+                  }
+                  className="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+                <label
+                  htmlFor={`eventDate${index}`}
+                  className="block text-lg font-semibold"
+                >
+                  Date:
+                </label>
+                <input
+                  type="date"
+                  id={`eventDate${index}`}
+                  name="date"
+                  value={event.date}
+                  onChange={(e) =>
+                    setFormData((prevState) => {
+                      const updatedEvents = [...prevState.eventDetails];
+                      updatedEvents[index].date = e.target.value;
+                      return { ...prevState, eventDetails: updatedEvents };
+                    })
+                  }
+                  className="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+                <label
+                  htmlFor={`eventTimeStart${index}`}
+                  className="block text-lg font-semibold"
+                >
+                  Start Time:
+                </label>
+                <input
+                  type="time"
+                  id={`eventTimeStart${index}`}
+                  name="timeStart"
+                  value={event.timeStart}
+                  onChange={(e) =>
+                    setFormData((prevState) => {
+                      const updatedEvents = [...prevState.eventDetails];
+                      updatedEvents[index].timeStart = e.target.value;
+                      return { ...prevState, eventDetails: updatedEvents };
+                    })
+                  }
+                  className="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+                <label
+                  htmlFor={`eventTimeEnd${index}`}
+                  className="block text-lg font-semibold"
+                >
+                  End Time:
+                </label>
+                <input
+                  type="time"
+                  id={`eventTimeEnd${index}`}
+                  name="timeEnd"
+                  value={event.timeEnd}
+                  onChange={(e) =>
+                    setFormData((prevState) => {
+                      const updatedEvents = [...prevState.eventDetails];
+                      updatedEvents[index].timeEnd = e.target.value;
+                      return { ...prevState, eventDetails: updatedEvents };
+                    })
+                  }
+                  className="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+                <label
+                  htmlFor={`eventDescription${index}`}
+                  className="block text-lg font-semibold"
+                >
+                  Description:
+                </label>
+                <textarea
+                  id={`eventDescription${index}`}
+                  name="description"
+                  value={event.description}
+                  onChange={(e) =>
+                    setFormData((prevState) => {
+                      const updatedEvents = [...prevState.eventDetails];
+                      updatedEvents[index].description = e.target.value;
+                      return { ...prevState, eventDetails: updatedEvents };
+                    })
+                  }
+                  className="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
               </div>
-              <label
-                htmlFor="mainCeremonyDescription"
-                className="block text-lg font-semibold"
-              >
-                Description:
-              </label>
-              <textarea
-                id="mainCeremonyDescription"
-                name="description"
-                value={formData.eventDetails.mainCeremony.description}
-                onChange={(e) =>
-                  handleNestedInputChange(e, "eventDetails", "mainCeremony")
-                }
-                className="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-              <button
-                type="button"
-                onClick={handleBack}
-                className="p-2 bg-gray-500 rounded"
-              >
-                Back
-              </button>
-              <button
-                type="button"
-                onClick={handleNext}
-                className="p-2 bg-blue-500 rounded"
-              >
-                Next
-              </button>
-            </div>
-          </>
-        )}
-        {/* Wedding Party Section */}
-        {step === 4 && (
-          <>
-            <div className="mb-4">
-              <h3 className="text-2xl font-semibold">Wedding Party</h3>
-              <label
-                htmlFor="weddingPartyTitle"
-                className="block text-lg font-semibold"
-              >
-                Title:
-              </label>
-              <input
-                type="text"
-                id="weddingPartyTitle"
-                name="title"
-                value={formData.eventDetails.weddingParty.title}
-                onChange={(e) =>
-                  handleNestedInputChange(e, "eventDetails", "weddingParty")
-                }
-                className="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-              <label
-                htmlFor="weddingPartyDate"
-                className="block text-lg font-semibold"
-              >
-                Date:
-              </label>
-              <input
-                type="date"
-                id="weddingPartyDate"
-                name="date"
-                value={formData.eventDetails.weddingParty.date}
-                onChange={(e) =>
-                  handleNestedInputChange(e, "eventDetails", "weddingParty")
-                }
-                className="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-              {/* Time Start and End */}
-              <div className="flex justify-between mb-4">
-                <div className="flex flex-col w-1/2">
-                  <label
-                    htmlFor="weddingPartyStartTime"
-                    className="block text-lg font-semibold"
-                  >
-                    Start Time:
-                  </label>
-                  <input
-                    type="time"
-                    id="weddingPartyStartTime"
-                    name="timeStart"
-                    value={formData.eventDetails.weddingParty.timeStart}
-                    onChange={(e) =>
-                      handleNestedInputChange(e, "eventDetails", "weddingParty")
-                    }
-                    className="p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
-                </div>
-                <div className="flex flex-col w-1/2">
-                  <label
-                    htmlFor="weddingPartyEndTime"
-                    className="block text-lg font-semibold"
-                  >
-                    End Time:
-                  </label>
-                  <input
-                    type="time"
-                    id="weddingPartyEndTime"
-                    name="timeEnd"
-                    value={formData.eventDetails.weddingParty.timeEnd}
-                    onChange={(e) =>
-                      handleNestedInputChange(e, "eventDetails", "weddingParty")
-                    }
-                    className="p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
-                </div>
-              </div>
-              <label
-                htmlFor="weddingPartyDescription"
-                className="block text-lg font-semibold"
-              >
-                Description:
-              </label>
-              <textarea
-                id="weddingPartyDescription"
-                name="description"
-                value={formData.eventDetails.weddingParty.description}
-                onChange={(e) =>
-                  handleNestedInputChange(e, "eventDetails", "weddingParty")
-                }
-                className="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
-              />
-              <button
-                type="button"
-                onClick={handleBack}
-                className="p-2 bg-gray-500 rounded"
-              >
-                Back
-              </button>
-              <button
-                type="button"
-                onClick={handleNext}
-                className="p-2 bg-blue-500 rounded"
-              >
-                Next
-              </button>
-            </div>
+            ))}
+            <button
+              type="button"
+              onClick={handleAddEvent}
+              className="w-full py-3 bg-green-500 text-white font-semibold rounded-md shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              Add Event
+            </button>
+            <button
+              type="button"
+              onClick={handleBack}
+              className="p-2 bg-gray-500 rounded"
+            >
+              Back
+            </button>
+            <button
+              type="button"
+              onClick={handleNext}
+              className="p-2 bg-blue-500 rounded"
+            >
+              Next
+            </button>
           </>
         )}
 
         {/* Story Section */}
 
-        {step === 5 && (
+        {step === 4 && (
           <>
             {formData.storyDetails.map((story, index) => (
               <div key={index} className="mb-4">
@@ -828,13 +546,16 @@ const WeddingForm = () => {
                   id={`storyImage${index}`}
                   name="image"
                   value={story.image}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setFormData((prevState) => {
                       const updatedStories = [...prevState.storyDetails];
-                      updatedStories[index].image = e.target.value;
+                      updatedStories[index] = {
+                        ...updatedStories[index],
+                        image: e.target.value,
+                      };
                       return { ...prevState, storyDetails: updatedStories };
-                    })
-                  }
+                    });
+                  }}
                   className="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
@@ -866,7 +587,7 @@ const WeddingForm = () => {
         )}
         {/* Gallery Section */}
 
-        {step === 6 && (
+        {step === 5 && (
           <>
             {formData.galleryData.map((gallery, index) => (
               <div key={index} className="mb-4">
