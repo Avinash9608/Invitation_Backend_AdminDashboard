@@ -241,12 +241,7 @@ function LoginPage({ onLogin, setUser }) {
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-useEffect(() => {
-    const savedEmail = localStorage.getItem("userEmail");
-    if (savedEmail) {
-      setEmail(savedEmail);
-    }
-  }, []);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
