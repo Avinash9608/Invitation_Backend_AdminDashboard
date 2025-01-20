@@ -50,21 +50,65 @@ const WeddingList = () => {
                 {wedding.brideName} & {wedding.groomName}
               </Typography>
               <Typography variant="body1">
-                Ceremony: {wedding.eventDetails.mainCeremony.title}
+                Wedding Date:{" "}
+                {new Date(wedding.weddingDate).toLocaleDateString()}
               </Typography>
               <Typography variant="body1">
-                Date: {wedding.eventDetails.mainCeremony.date.split("T")[0]}
+                Location: {wedding.weddingLocation}
               </Typography>
               <Typography variant="body2">
-                Stories: {wedding.storyDetails.length} stories
+                Bride: {wedding.brideDescription}
               </Typography>
               <Typography variant="body2">
-                Gallery: {wedding.galleryData.length} images
+                Groom: {wedding.groomDescription}
               </Typography>
+              <Typography variant="h6" mt={2}>
+                Event Details:
+              </Typography>
+              {wedding.eventDetails.map((event, index) => (
+                <Box key={index} mt={1} mb={1}>
+                  <Typography variant="body1">
+                    {event.title} ({event.type})
+                  </Typography>
+                  <Typography variant="body2">Date: {event.date}</Typography>
+                  <Typography variant="body2">
+                    Time: {event.timeStart} - {event.timeEnd}
+                  </Typography>
+                  <Typography variant="body2">
+                    Description: {event.description}
+                  </Typography>
+                </Box>
+              ))}
+              <Typography variant="h6" mt={2}>
+                Stories:
+              </Typography>
+              {wedding.storyDetails.map((story, index) => (
+                <Box key={index} mt={1} mb={1}>
+                  <Typography variant="body1">{story.title}</Typography>
+                  <Typography variant="body2">
+                    Date: {new Date(story.date).toLocaleDateString()}
+                  </Typography>
+                  <Typography variant="body2">
+                    Description: {story.description}
+                  </Typography>
+                </Box>
+              ))}
+              <Typography variant="h6" mt={2}>
+                Gallery:
+              </Typography>
+              {wedding.galleryData.map((gallery, index) => (
+                <Box key={index} mt={1} mb={1}>
+                  <Typography variant="body1">{gallery.title}</Typography>
+                  <Typography variant="body2">
+                    Images: {gallery.photosCount}
+                  </Typography>
+                </Box>
+              ))}
               <Button
                 onClick={() => handleDelete(wedding._id)}
                 variant="outlined"
                 color="error"
+                mt={2}
               >
                 Delete
               </Button>
