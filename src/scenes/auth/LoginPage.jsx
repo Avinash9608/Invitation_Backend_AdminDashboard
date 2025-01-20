@@ -241,7 +241,12 @@ function LoginPage({ onLogin, setUser }) {
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
+useEffect(() => {
+    const savedEmail = localStorage.getItem("userEmail");
+    if (savedEmail) {
+      setEmail(savedEmail);
+    }
+  }, []);
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -253,6 +258,7 @@ function LoginPage({ onLogin, setUser }) {
       });
       if (response.data.success) {
         const userData = response.data.user; // Assuming response.data.user contains user info
+        localStorage.setItem("userEmail", userData.email);
         onLogin(userData);
       } else {
         setMessage(response.data.message || "Invalid credentials");
