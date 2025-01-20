@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -40,6 +40,12 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+ const [email, setEmail] = useState("");
+  useEffect(() => {
+    // Fetch email from localStorage
+    const userEmail = localStorage.getItem("userEmail");
+    setEmail(userEmail || "Guest Email");
+  }, []);
 
   return (
     <Box
@@ -110,7 +116,7 @@ const Sidebar = () => {
                   IND TECHMARK
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  Avinash
+                  {email}
                 </Typography>
               </Box>
             </Box>
