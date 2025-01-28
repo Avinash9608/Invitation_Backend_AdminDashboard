@@ -2,23 +2,20 @@
   --navbar-height: 80px; /* Adjust according to your navbar's height */
 }
 
-
-
 .BackGroundBG {
   position: relative; /* Set relative positioning for the container */
   width: 100%; /* Full width */
   height: 70%; /* Full viewport height */
-  
 }
 
 .BackGroundBG::before {
-  content: ''; /* Creates a pseudo-element */
+  content: ""; /* Creates a pseudo-element */
   position: absolute;
   top: 0;
   left: 0;
   width: 100%; /* Full width of the container */
   height: 70%; /* Full height of the container */
-  background-image: url('./assets/floral2.png'); /* Background image */
+  background-image: url("./assets/floral2.png"); /* Background image */
   background-size: cover; /* Ensures the image covers the entire pseudo-element */
   background-repeat: no-repeat; /* Prevents repetition */
   background-position: center; /* Centers the background */
@@ -30,17 +27,16 @@
   position: relative; /* Set relative positioning for the container */
   width: 100%; /* Full width */
   height: 70%; /* Full viewport height */
-  
 }
 
 .BackGroundBG2::before {
-  content: ''; /* Creates a pseudo-element */
+  content: ""; /* Creates a pseudo-element */
   position: absolute;
   top: 0;
   left: 0;
   width: 100%; /* Full width of the container */
   height: auto; /* Full height of the container */
-  background-image: url('./assets/Floral3.png'); /* Background image */
+  background-image: url("./assets/Floral3.png"); /* Background image */
   background-size: cover; /* Ensures the image covers the entire pseudo-element */
   background-repeat: no-repeat; /* Prevents repetition */
   background-position: center; /* Centers the background */
@@ -52,17 +48,16 @@
   position: relative; /* Set relative positioning for the container */
   width: 100%; /* Full width */
   height: ; /* Full viewport height */
-  
 }
 
 .BackGroundBG3::before {
-  content: ''; /* Creates a pseudo-element */
+  content: ""; /* Creates a pseudo-element */
   position: absolute;
   top: 0;
   left: 0;
   width: 100%; /* Full width of the container */
   height: 100%; /* Full height of the container */
-  background-image: url('./assets/Floral4.png'); /* Background image */
+  background-image: url("./assets/Floral4.png"); /* Background image */
   background-size: cover; /* Ensures the image covers the entire pseudo-element */
   background-repeat: no-repeat; /* Prevents repetition */
   background-position: center; /* Centers the background */
@@ -70,10 +65,10 @@
   z-index: -1; /* Places the pseudo-element behind the content */
 }
 
-.navbar{
- position: fixed; 
-background-color: white;
- z-index: 5000;
+.navbar {
+  position: fixed;
+  background-color: white;
+  z-index: 5000;
 }
 
 /* authPage.css */
@@ -82,13 +77,11 @@ background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('./assets/Bg.png'); /* Replace with the URL of your image */
+  background-image: url("./assets/Bg.png"); /* Replace with the URL of your image */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
-
-
 
 form input {
   width: 100%;
@@ -123,7 +116,7 @@ form span {
   font-weight: bold;
 }
 
- form h2,
+form h2,
 input,
 button {
   font-family: Arial, sans-serif;
