@@ -294,7 +294,12 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-
+const [email, setEmail] = useState("");
+   useEffect(() => {
+     // Fetch email from localStorage
+    const userEmail = localStorage.getItem("userEmail");
+     setEmail(userEmail || "Guest Email");
+   }, []);
   return (
     <Box
       sx={{
@@ -364,7 +369,7 @@ const Sidebar = () => {
                   IND TECHMARK
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  Super Admin
+                  {email}
                 </Typography>
               </Box>
             </Box>
