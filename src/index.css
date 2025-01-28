@@ -9,9 +9,149 @@ body,
 #root,
 .app,
 .content {
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
   font-family: "Source Sans Pro", sans-serif;
+}
+.css-1yqlyn3-MuiSvgIcon-root {
+  transition: 1.3s;
+}
+.css-1yqlyn3-MuiSvgIcon-root:hover {
+  transform: scale(1.1);
+}
+.css-mb6mia {
+  grid-column: span 8;
+  grid-row: span 2;
+  background: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 8%;
+}
+
+.pro-sidebar .pro-menu a:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: transparent;
+}
+.css-11y1vq4 .pro-menu-item.active {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.448) !important;
+  width: 90% !important;
+  border-radius: 10px;
+  box-shadow: #e0e0e0;
+}
+.pro-sidebar .pro-menu .pro-menu-item.active {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.448) !important;
+  width: 90% !important;
+  border-radius: 10px;
+  box-shadow: #e0e0e0;
+}
+.css-11y1vq4 .pro-menu-item.active {
+  color: None !important;
+}
+.pro-sidebar .pro-menu a:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.pro-sidebar .pro-menu a:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: transparent;
+}
+.css-1l8icbj {
+  padding: 8% !important;
+}
+
+.pro-sidebar .pro-menu .pro-menu-item {
+  font-size: 15px;
+  margin-bottom: 10px !important;
+}
+
+.css-ottis1 {
+  grid-column: span 4;
+  grid-row: span 2;
+  background: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 8%;
+}
+.css-1mx20k4 {
+  grid-column: span 4;
+  grid-row: span 2;
+  background: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 8%;
+  padding: 30px;
+}
+
+.css-1r0ei6f {
+  grid-column: span 4;
+  grid-row: span 2;
+
+  overflow: auto; /* Enables scrolling */
+  background: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 8%;
+
+  /* Hide scrollbar for Webkit browsers (Chrome, Safari) */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.css-1r0ei6f::-webkit-scrollbar {
+  display: none; /* Webkit browsers */
+}
+
+.css-1ula4hh {
+  grid-column: span 3;
+  background: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 8%;
+
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  transition: 1.3s;
+}
+.css-1ula4hh:hover {
+  transform: scale(1.05);
+}
+
+.content {
+  background-color: #1d1d1d !important;
+
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .app {
@@ -36,4 +176,96 @@ body,
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.Wedding_Form_Sec {
+  width: 100%;
+  height: 95vh;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  overflow: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  align-items: center;
+  scrollbar-width: 0% !important;
+}
+
+.Wedding_Form_Sec .WeddingFormMid {
+  padding: 20px;
+  background-color: #3d3b3b;
+  width: 50%;
+
+  overflow: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* For screens with a max-width of 1024px */
+@media (max-width: 1024px) {
+  .Wedding_Form_Sec .WeddingFormMid {
+    width: 70%; /* Adjust the width */
+    height: 81%; /* Adjust the height */
+    padding: 15px; /* Adjust the padding */
+    padding-top: 2rem;
+  }
+}
+
+/* For screens with a max-width of 768px */
+@media (max-width: 768px) {
+  .Wedding_Form_Sec .WeddingFormMid {
+    width: 90%; /* Take up more width */
+    height: 80%; /* Let the height adjust to the content */
+    padding: 10px; /* Reduce the padding */
+  }
+}
+
+/* For screens with a max-width of 480px */
+@media (max-width: 480px) {
+  .Wedding_Form_Sec .WeddingFormMid {
+    width: 100%; /* Full width */
+    height: 80%; /* Adjust height based on content */
+    padding: 8px; /* Reduce padding further */
+  }
+}
+
+.inputForm {
+  background-color: #5d5b5b;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+  0% {
+    transform: translatey(0px);
+  }
+  50% {
+    transform: translatey(-20px);
+  }
+  100% {
+    transform: translatey(0px);
+  }
+}
+
+@media (max-width: 1024px) {
+  .ImageSecFormWedding img {
+    width: 80%; /* Reduce the width to 80% */
+    height: auto; /* Maintain aspect ratio */
+  }
+}
+
+/* For screens with a max-width of 768px */
+@media (max-width: 768px) {
+  .ImageSecFormWedding img {
+    display: none;
+  }
+}
+
+/* For screens with a max-width of 480px */
+@media (max-width: 480px) {
+  .ImageSecFormWedding img {
+    display: none;
+  }
 }
