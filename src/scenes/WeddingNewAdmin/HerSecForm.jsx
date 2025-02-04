@@ -1413,6 +1413,10 @@ const WeddingForm = () => {
               <button
                 type="submit"
                 className=" py-3 w-24 bg-blue-500 text-white font-semibold rounded-md shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onClick={() => {
+    // Submit the form (if it's inside a form element, otherwise trigger form submission manually)
+    window.location.href = 'https://invitation-card-weddingpage.vercel.app/';
+  }}
               >
                 Submit
               </button>
