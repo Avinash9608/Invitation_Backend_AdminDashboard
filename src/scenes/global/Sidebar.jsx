@@ -406,13 +406,7 @@ const [email, setEmail] = useState("");
             >
               Data
             </Typography>
-            <Item
-              title="Manage Team"
-              to="/team"
-              icon={<PeopleOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            
             <Item
               title="Contacts Information"
               to="/contacts"
@@ -464,8 +458,8 @@ const [email, setEmail] = useState("");
             />
 
             <Item
-              title="AnniversaryTable"
-              to="/anniversaryTable"
+              title="WeddingEditing"
+              to="/weddingList"
               icon={<CalendarTodayOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
