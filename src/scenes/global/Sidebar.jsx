@@ -646,7 +646,7 @@ const Sidebar = () => {
             <Item title="Template" to="/template" icon={<CalendarTodayOutlinedIcon />} selected={selected} setSelected={setSelected} />
 
             {/* Wedding Link - Opens in New Tab */}
-            <Item title="Weddings" to="https://invitation-card-weddingpage.vercel.app" icon={<CalendarTodayOutlinedIcon />} selected={selected} setSelected={setSelected} external={true} />
+            <Item title="Experience the Wedding" to="https://invitation-card-weddingpage.vercel.app" icon={<CalendarTodayOutlinedIcon />} selected={selected} setSelected={setSelected} external={true} />
 
             <Item title="Birthday" to="/birthday" icon={<CalendarTodayOutlinedIcon />} selected={selected} setSelected={setSelected} />
             <Item title="WeddingEditing" to="/weddingList" icon={<CalendarTodayOutlinedIcon />} selected={selected} setSelected={setSelected} />
