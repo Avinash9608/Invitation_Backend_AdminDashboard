@@ -351,7 +351,7 @@ const WeddingList = () => {
 
   return (
     <Box m="20px">
-      <Header title="CREATE WEDDING" subtitle="Create or Edit a Wedding" />
+      <Header title="EDIT WEDDING FORM" subtitle=" Edit a Wedding" />
 
       <Formik
         onSubmit={handleFormSubmit}
