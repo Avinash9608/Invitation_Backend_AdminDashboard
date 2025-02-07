@@ -405,7 +405,7 @@ const [email, setEmail] = useState("");
               setSelected={setSelected}
             />
             <Item
-              title="Invoices Balances"
+              title="User Enquiry"
               to="/invoices"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
