@@ -1,83 +1,71 @@
-import { Box, Typography, useTheme } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
-import { tokens } from "../../theme";
-import { mockDataInvoices } from "../../data/mockData";
-import Header from "../../components/Header";
+import React, { useEffect, useState } from "react";
 
-const Invoices = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  const columns = [
-    { field: "id", headerName: "ID" },
-    {
-      field: "name",
-      headerName: "Name",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "phone",
-      headerName: "Phone Number",
-      flex: 1,
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-    },
-    {
-      field: "cost",
-      headerName: "Cost",
-      flex: 1,
-      renderCell: (params) => (
-        <Typography color={colors.greenAccent[500]}>
-          ${params.row.cost}
-        </Typography>
-      ),
-    },
-    {
-      field: "date",
-      headerName: "Date",
-      flex: 1,
-    },
-  ];
+const EnquiryTable = () => {
+  const [enquiries, setEnquiries] = useState([]);
+
+  useEffect(() => {
+    fetch("https://invitationcardbackend.onrender.com/api/enquiry")
+      .then((response) => response.json())
+      .then((data) => setEnquiries(data))
+      .catch((error) => console.error("Error fetching enquiries:", error));
+  }, []);
 
   return (
-    <Box m="20px">
-      <Header title="INVOICES" subtitle="List of Invoice Balances" />
-      <Box
-        m="40px 0 0 0"
-        height="75vh"
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .name-column--cell": {
-            color: colors.greenAccent[300],
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: colors.primary[400],
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
-          },
-          "& .MuiCheckbox-root": {
-            color: `${colors.greenAccent[200]} !important`,
-          },
-        }}
-      >
-        <DataGrid checkboxSelection rows={mockDataInvoices} columns={columns} />
-      </Box>
-    </Box>
+    <div className="max-w-6xl mx-auto p-6">
+      <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div className="p-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white">
+          <h2 className="text-2xl font-bold text-center">User Enquiries</h2>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
+                <th className="py-3 px-6 text-left">Name</th>
+                <th className="py-3 px-6 text-left">Email</th>
+                <th className="py-3 px-6 text-left">Message</th>
+                <th className="py-3 px-6 text-center">Send Copy</th>
+                <th className="py-3 px-6 text-center">Date</th>
+              </tr>
+            </thead>
+            <tbody className="text-gray-600 text-sm font-light">
+              {enquiries.length > 0 ? (
+                enquiries.map((enquiry) => (
+                  <tr
+                    key={enquiry._id}
+                    className="border-b border-gray-200 hover:bg-gray-100"
+                  >
+                    <td className="py-3 px-6 text-left">{enquiry.name}</td>
+                    <td className="py-3 px-6 text-left">{enquiry.email}</td>
+                    <td className="py-3 px-6 text-left truncate max-w-xs">
+                      {enquiry.message}
+                    </td>
+                    <td className="py-3 px-6 text-center">
+                      <span
+                        className={`px-3 py-1 rounded-full text-white text-xs font-semibold ${
+                          enquiry.sendCopy ? "bg-green-500" : "bg-red-500"
+                        }`}
+                      >
+                        {enquiry.sendCopy ? "Yes" : "No"}
+                      </span>
+                    </td>
+                    <td className="py-3 px-6 text-center">
+                      {new Date(enquiry.createdAt).toLocaleDateString()}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" className="text-center py-4 text-gray-500">
+                    No enquiries found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default Invoices;
+export default EnquiryTable;
