@@ -274,6 +274,7 @@ const WeddingList = () => {
   const [weddings, setWeddings] = useState([]);
   const [editingWedding, setEditingWedding] = useState(null);
 
+  // Fetch weddings from the database on component mount
   useEffect(() => {
     const fetchWeddings = async () => {
       try {
@@ -289,17 +290,30 @@ const WeddingList = () => {
     fetchWeddings();
   }, []);
 
+  // Handle form submission (create or update wedding)
   const handleFormSubmit = async (values, { resetForm }) => {
     try {
       const formattedValues = { ...values };
-      formattedValues.eventDetails.mainCeremony.date =
-        formattedValues.eventDetails.mainCeremony.date.split("T")[0];
-      formattedValues.eventDetails.weddingParty.date =
-        formattedValues.eventDetails.weddingParty.date.split("T")[0];
       formattedValues.weddingDate = formattedValues.weddingDate.split("T")[0];
-      values.storyDetails.forEach((story, index) => {
-        formattedValues.storyDetails[index].date = story.date.split("T")[0];
-      });
+
+      // Format event and story dates
+      if (formattedValues.eventDetails) {
+        formattedValues.eventDetails = formattedValues.eventDetails.map(
+          (event) => ({
+            ...event,
+            date: event.date.split("T")[0],
+          })
+        );
+      }
+
+      if (formattedValues.storyDetails) {
+        formattedValues.storyDetails = formattedValues.storyDetails.map(
+          (story) => ({
+            ...story,
+            date: story.date.split("T")[0],
+          })
+        );
+      }
 
       if (editingWedding) {
         // Update the wedding in the database
@@ -307,7 +321,7 @@ const WeddingList = () => {
           `https://invitationcardbackend.onrender.com/api/wedding/${editingWedding._id}`,
           formattedValues
         );
-        // Update the state
+        // Update the state with the updated wedding
         setWeddings((prevWeddings) =>
           prevWeddings.map((wedding) =>
             wedding._id === editingWedding._id ? response.data : wedding
@@ -323,17 +337,22 @@ const WeddingList = () => {
         setWeddings((prevWeddings) => [...prevWeddings, response.data]);
         alert("Wedding created successfully!");
       }
-      setEditingWedding(null); // Reset editing state
+
+      // Reset the form and editing state
+      setEditingWedding(null);
       resetForm();
     } catch (error) {
       console.error("Error saving wedding:", error);
       alert("Failed to save wedding.");
     }
   };
+
+  // Handle editing a wedding
   const handleEdit = (wedding) => {
     setEditingWedding(wedding);
   };
 
+  // Handle deleting a wedding
   const handleDelete = async (id) => {
     try {
       await axios.delete(
@@ -349,10 +368,30 @@ const WeddingList = () => {
     }
   };
 
+  // Add a new event to the eventDetails array
+  const addEvent = (values, setValues) => {
+    setValues({
+      ...values,
+      eventDetails: [
+        ...values.eventDetails,
+        { title: "", timeStart: "", timeEnd: "", date: "", description: "" },
+      ],
+    });
+  };
+
+  // Remove an event from the eventDetails array
+  const removeEvent = (index, values, setValues) => {
+    setValues({
+      ...values,
+      eventDetails: values.eventDetails.filter((_, i) => i !== index),
+    });
+  };
+
   return (
     <Box m="20px">
-      <Header title="EDIT WEDDING FORM" subtitle=" Edit a Wedding" />
+      <Header title="EDIT WEDDING" subtitle=" Edit a Wedding" />
 
+      {/* Formik Form */}
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={editingWedding || initialValues}
@@ -366,6 +405,7 @@ const WeddingList = () => {
           handleBlur,
           handleChange,
           handleSubmit,
+          setValues,
         }) => (
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
@@ -419,7 +459,7 @@ const WeddingList = () => {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.groomImageUrl}
-                  name="groom ImageUrl"
+                  name="groomImageUrl"
                   error={!!touched.groomImageUrl && !!errors.groomImageUrl}
                   helperText={touched.groomImageUrl && errors.groomImageUrl}
                 />
@@ -493,188 +533,137 @@ const WeddingList = () => {
               {/* Event Details */}
               <Grid item xs={12}>
                 <Typography variant="h6">Event Details</Typography>
-                {/* Main Ceremony */}
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  label="Main Ceremony Title"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.eventDetails.mainCeremony.title}
-                  name="eventDetails.mainCeremony.title"
-                  error={
-                    !!touched.eventDetails?.mainCeremony?.title &&
-                    !!errors.eventDetails?.mainCeremony?.title
-                  }
-                  helperText={
-                    touched.eventDetails?.mainCeremony?.title &&
-                    errors.eventDetails?.mainCeremony?.title
-                  }
-                />
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  label="Main Ceremony Start Time"
-                  type="time"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.eventDetails.mainCeremony.timeStart}
-                  name="eventDetails.mainCeremony.timeStart"
-                  error={
-                    !!touched.eventDetails?.mainCeremony?.timeStart &&
-                    !!errors.eventDetails?.mainCeremony?.timeStart
-                  }
-                  helperText={
-                    touched.eventDetails?.mainCeremony?.timeStart &&
-                    errors.eventDetails?.mainCeremony?.timeStart
-                  }
-                />
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  label="Main Ceremony End Time"
-                  type="time"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.eventDetails.mainCeremony.timeEnd}
-                  name="eventDetails.mainCeremony.timeEnd"
-                  error={
-                    !!touched.eventDetails?.mainCeremony?.timeEnd &&
-                    !!errors.eventDetails?.mainCeremony?.timeEnd
-                  }
-                  helperText={
-                    touched.eventDetails?.mainCeremony?.timeEnd &&
-                    errors.eventDetails?.mainCeremony?.timeEnd
-                  }
-                />
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  label="Main Ceremony Date"
-                  type="date"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.eventDetails.mainCeremony.date}
-                  name="eventDetails.mainCeremony.date"
-                  error={
-                    !!touched.eventDetails?.mainCeremony?.date &&
-                    !!errors.eventDetails?.mainCeremony?.date
-                  }
-                  helperText={
-                    touched.eventDetails?.mainCeremony?.date &&
-                    errors.eventDetails?.mainCeremony?.date
-                  }
-                />
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  label="Main Ceremony Description"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.eventDetails.mainCeremony.description}
-                  name="eventDetails.mainCeremony.description"
-                  error={
-                    !!touched.eventDetails?.mainCeremony?.description &&
-                    !!errors.eventDetails?.mainCeremony?.description
-                  }
-                  helperText={
-                    touched.eventDetails?.mainCeremony?.description &&
-                    errors.eventDetails?.mainCeremony?.description
-                  }
-                />
-              </Grid>
 
-              {/* Wedding Ceremony */}
-              <Grid item xs={12}>
-                <Typography variant="h6">Wedding Ceremony</Typography>
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  label="Ceremony Title"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.eventDetails.weddingParty.title}
-                  name="eventDetails.weddingParty.title"
-                  error={
-                    !!touched.eventDetails?.weddingParty?.title &&
-                    !!errors.eventDetails?.weddingParty?.title
-                  }
-                  helperText={
-                    touched.eventDetails?.weddingParty?.title &&
-                    errors.eventDetails?.weddingParty?.title
-                  }
-                />
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  label="Start Time"
-                  type="time"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.eventDetails.weddingParty.timeStart}
-                  name="eventDetails.weddingParty.timeStart"
-                  error={
-                    !!touched.eventDetails?.weddingParty?.timeStart &&
-                    !!errors.eventDetails?.weddingParty?.timeStart
-                  }
-                  helperText={
-                    touched.eventDetails?.weddingParty?.timeStart &&
-                    errors.eventDetails?.weddingParty?.timeStart
-                  }
-                />
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  label="End Time"
-                  type="time"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.eventDetails.weddingParty.timeEnd}
-                  name="eventDetails.weddingParty.timeEnd"
-                  error={
-                    !!touched.eventDetails?.weddingParty?.timeEnd &&
-                    !!errors.eventDetails?.weddingParty?.timeEnd
-                  }
-                  helperText={
-                    touched.eventDetails?.weddingParty?.timeEnd &&
-                    errors.eventDetails?.weddingParty?.timeEnd
-                  }
-                />
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  label="Date"
-                  type="date"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.eventDetails.weddingParty.date}
-                  name="eventDetails.weddingParty.date"
-                  error={
-                    !!touched.eventDetails?.weddingParty?.date &&
-                    !!errors.eventDetails?.weddingParty?.date
-                  }
-                  helperText={
-                    touched.eventDetails?.weddingParty?.date &&
-                    errors.eventDetails?.weddingParty?.date
-                  }
-                />
-                <TextField
-                  fullWidth
-                  variant="filled"
-                  label="Description"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.eventDetails.weddingParty.description}
-                  name="eventDetails.weddingParty.description"
-                  error={
-                    !!touched.eventDetails?.weddingParty?.description &&
-                    !!errors.eventDetails?.weddingParty?.description
-                  }
-                  helperText={
-                    touched.eventDetails?.weddingParty?.description &&
-                    errors.eventDetails?.weddingParty?.description
-                  }
-                />
+                {values.eventDetails.map((event, index) => (
+                  <Box key={index} sx={{ marginBottom: 2 }}>
+                    <Typography variant="subtitle1">
+                      {event.title || `Event ${index + 1}`}
+                    </Typography>
+
+                    <TextField
+                      fullWidth
+                      variant="filled"
+                      label="Event Title"
+                      onBlur={handleBlur}
+                      onChange={(e) =>
+                        handleChange(`eventDetails[${index}].title`)(e)
+                      }
+                      value={event.title}
+                      name={`eventDetails[${index}].title`}
+                      error={
+                        !!touched.eventDetails?.[index]?.title &&
+                        !!errors.eventDetails?.[index]?.title
+                      }
+                      helperText={
+                        touched.eventDetails?.[index]?.title &&
+                        errors.eventDetails?.[index]?.title
+                      }
+                    />
+
+                    <TextField
+                      fullWidth
+                      variant="filled"
+                      label="Start Time"
+                      type="time"
+                      onBlur={handleBlur}
+                      onChange={(e) =>
+                        handleChange(`eventDetails[${index}].timeStart`)(e)
+                      }
+                      value={event.timeStart}
+                      name={`eventDetails[${index}].timeStart`}
+                      error={
+                        !!touched.eventDetails?.[index]?.timeStart &&
+                        !!errors.eventDetails?.[index]?.timeStart
+                      }
+                      helperText={
+                        touched.eventDetails?.[index]?.timeStart &&
+                        errors.eventDetails?.[index]?.timeStart
+                      }
+                    />
+
+                    <TextField
+                      fullWidth
+                      variant="filled"
+                      label="End Time"
+                      type="time"
+                      onBlur={handleBlur}
+                      onChange={(e) =>
+                        handleChange(`eventDetails[${index}].timeEnd`)(e)
+                      }
+                      value={event.timeEnd}
+                      name={`eventDetails[${index}].timeEnd`}
+                      error={
+                        !!touched.eventDetails?.[index]?.timeEnd &&
+                        !!errors.eventDetails?.[index]?.timeEnd
+                      }
+                      helperText={
+                        touched.eventDetails?.[index]?.timeEnd &&
+                        errors.eventDetails?.[index]?.timeEnd
+                      }
+                    />
+
+                    <TextField
+                      fullWidth
+                      variant="filled"
+                      label="Date"
+                      type="date"
+                      onBlur={handleBlur}
+                      onChange={(e) =>
+                        handleChange(`eventDetails[${index}].date`)(e)
+                      }
+                      value={event.date}
+                      name={`eventDetails[${index}].date`}
+                      error={
+                        !!touched.eventDetails?.[index]?.date &&
+                        !!errors.eventDetails?.[index]?.date
+                      }
+                      helperText={
+                        touched.eventDetails?.[index]?.date &&
+                        errors.eventDetails?.[index]?.date
+                      }
+                    />
+
+                    <TextField
+                      fullWidth
+                      variant="filled"
+                      label="Description"
+                      onBlur={handleBlur}
+                      onChange={(e) =>
+                        handleChange(`eventDetails[${index}].description`)(e)
+                      }
+                      value={event.description}
+                      name={`eventDetails[${index}].description`}
+                      error={
+                        !!touched.eventDetails?.[index]?.description &&
+                        !!errors.eventDetails?.[index]?.description
+                      }
+                      helperText={
+                        touched.eventDetails?.[index]?.description &&
+                        errors.eventDetails?.[index]?.description
+                      }
+                    />
+
+                    {/* Remove Event Button */}
+                    <Button
+                      variant="contained"
+                      color="error"
+                      onClick={() => removeEvent(index, values, setValues)}
+                      sx={{ marginTop: 1 }}
+                    >
+                      Remove Event
+                    </Button>
+                  </Box>
+                ))}
+
+                {/* Add Event Button */}
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => addEvent(values, setValues)}
+                  sx={{ marginTop: 2 }}
+                >
+                  Add Event
+                </Button>
               </Grid>
 
               {/* Story Details */}
@@ -688,7 +677,7 @@ const WeddingList = () => {
                       label="Story Title"
                       onBlur={handleBlur}
                       onChange={(e) =>
-                        handleChange(e, `storyDetails[${index}].title`)
+                        handleChange(`storyDetails[${index}].title`)(e)
                       }
                       value={story.title}
                       name={`storyDetails[${index}].title`}
@@ -700,7 +689,7 @@ const WeddingList = () => {
                       type="date"
                       onBlur={handleBlur}
                       onChange={(e) =>
-                        handleChange(e, `storyDetails[${index}].date`)
+                        handleChange(`storyDetails[${index}].date`)(e)
                       }
                       value={story.date.split("T")[0]}
                       name={`storyDetails[${index}].date`}
@@ -711,7 +700,7 @@ const WeddingList = () => {
                       label="Story Description"
                       onBlur={handleBlur}
                       onChange={(e) =>
-                        handleChange(e, `storyDetails[${index}].description`)
+                        handleChange(`storyDetails[${index}].description`)(e)
                       }
                       value={story.description}
                       name={`storyDetails[${index}].description`}
@@ -722,12 +711,11 @@ const WeddingList = () => {
                       label="Story Image URL"
                       onBlur={handleBlur}
                       onChange={(e) =>
-                        handleChange(e, `storyDetails[${index}].image`)
+                        handleChange(`storyDetails[${index}].image`)(e)
                       }
                       value={story.image}
                       name={`storyDetails[${index}].image`}
                     />
-                    ```javascript
                   </Box>
                 ))}
               </Grid>
@@ -743,7 +731,7 @@ const WeddingList = () => {
                       label="Gallery Title"
                       onBlur={handleBlur}
                       onChange={(e) =>
-                        handleChange(e, `galleryData[${index}].title`)
+                        handleChange(`galleryData[${index}].title`)(e)
                       }
                       value={gallery.title}
                       name={`galleryData[${index}].title`}
@@ -754,7 +742,7 @@ const WeddingList = () => {
                       label="Image URL"
                       onBlur={handleBlur}
                       onChange={(e) =>
-                        handleChange(e, `galleryData[${index}].image`)
+                        handleChange(`galleryData[${index}].image`)(e)
                       }
                       value={gallery.image}
                       name={`galleryData[${index}].image`}
@@ -765,7 +753,7 @@ const WeddingList = () => {
                       label="Photos Count"
                       onBlur={handleBlur}
                       onChange={(e) =>
-                        handleChange(e, `galleryData[${index}].photosCount`)
+                        handleChange(`galleryData[${index}].photosCount`)(e)
                       }
                       value={gallery.photosCount}
                       name={`galleryData[${index}].photosCount`}
@@ -773,8 +761,6 @@ const WeddingList = () => {
                   </Box>
                 ))}
               </Grid>
-
-              {/* Wedding List Table */}
 
               {/* Submit Button */}
               <Grid item xs={12}>
@@ -792,6 +778,7 @@ const WeddingList = () => {
         )}
       </Formik>
 
+      {/* Wedding List */}
       <Box mt={5}>
         <Typography variant="h6">Wedding List</Typography>
         <Grid container spacing={2}>
@@ -824,7 +811,6 @@ const WeddingList = () => {
     </Box>
   );
 };
-
 const weddingSchema = yup.object({
   brideName: yup.string().required("Bride's Name is required"),
   groomName: yup.string().required("Groom's Name is required"),
@@ -834,8 +820,9 @@ const weddingSchema = yup.object({
   weddingLocation: yup.string().required("Wedding Location is required"),
   brideDescription: yup.string().required("Bride's Description is required"),
   groomDescription: yup.string().required("Groom's Description is required"),
-  eventDetails: yup.object({
-    mainCeremony: yup.object({
+  eventDetails: yup.array().of(
+    yup.object({
+      type: yup.string().required("Main Ceremony Type is required"),
       title: yup.string().required("Main Ceremony Title is required"),
       timeStart: yup.string().required("Start Time is required"),
       timeEnd: yup.string().required("End Time is required"),
@@ -843,17 +830,8 @@ const weddingSchema = yup.object({
       description: yup
         .string()
         .required("Main Ceremony Description is required"),
-    }),
-    weddingParty: yup.object({
-      title: yup.string().required("Wedding Party Title is required"),
-      timeStart: yup.string().required("Wedding Party Start Time is required"),
-      timeEnd: yup.string().required("Wedding Party End Time is required"),
-      date: yup.date().required("Wedding Party Date is required"),
-      description: yup
-        .string()
-        .required("Wedding Party Description is required"),
-    }),
-  }),
+    })
+  ),
   storyDetails: yup.array().of(
     yup.object({
       title: yup.string().required("Story Title is required"),
@@ -880,22 +858,7 @@ const initialValues = {
   weddingLocation: "",
   brideDescription: "",
   groomDescription: "",
-  eventDetails: {
-    mainCeremony: {
-      title: "",
-      timeStart: "",
-      timeEnd: "",
-      date: "",
-      description: "",
-    },
-    weddingParty: {
-      title: "",
-      timeStart: "",
-      timeEnd: "",
-      date: "",
-      description: "",
-    },
-  },
+  eventDetails: [],
   storyDetails: [],
   galleryData: [],
 };
